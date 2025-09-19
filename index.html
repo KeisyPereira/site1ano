@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1 ano juntos</title>
+
+  <!-- Fontes Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #fff7fb;                /* fundo claro e suave */
+      --card: #ffffff;              /* cartões/brancos */
+      --text: #111111;              /* textos e detalhes em preto */
+      --muted: #fde2e4;             /* rosado bem leve */
+      --accent: #e11d48;            /* vermelho para partes românticas */
+      --accent-2: #fb7185;          /* vermelho/rosa secundário */
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    /* Reset básico */
+    *, *::before, *::after{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg) 0%, #fff 100%);
+      overflow-y: scroll; /* barra de rolagem no site inteiro */
+    }
+
+    /* Barra de rolagem personalizada (webkit) */
+    body::-webkit-scrollbar{ width: 12px; }
+    body::-webkit-scrollbar-track{ background: #ffe4ec; }
+    body::-webkit-scrollbar-thumb{ background: #ff9db2; border-radius: 10px; border: 2px solid #ffe4ec; }
+    body::-webkit-scrollbar-thumb:hover{ background: #ff7996; }
+
+    a{ color: inherit; text-decoration: none; }
+    img{ max-width: 100%; display: block; }
+
+    /* Navegador */
+    .nav{
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.7);
+      border-bottom: 1px solid #ffd5df;
+    }
+    .nav-inner{
+      max-width: 1100px; margin: 0 auto; padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand{ font-family: 'Great Vibes', cursive; font-size: 32px; color: var(--accent); }
+    .menu{ display: flex; gap: 14px; font-family: 'Poppins', sans-serif; }
+    .menu a{ padding: 8px 12px; border-radius: 999px; }
+    .menu a:hover{ background: var(--muted); }
+
+    /* Hero */
+    .hero{
+      position: relative; isolation: isolate;
+      max-width: 1100px; margin: 28px auto 0; padding: 40px 16px 24px;
+      display: grid; grid-template-columns: 1fr; gap: 20px;
+      text-align: center;
+    }
+    .hero h1{
+      font-family: 'Great Vibes', cursive; font-size: 60px; line-height: 1; margin: 0; color: var(--accent);
+      text-shadow: 0 2px 0 #ffd5df;
+    }
+    .hero p{
+      font-family: 'Poppins', sans-serif; font-weight: 300; font-size: 18px; margin: 10px auto 0; max-width: 720px;
+    }
+
+    /* Container padrão */
+    .section{ max-width: 1100px; margin: 32px auto; padding: 0 16px; }
+    .section h2{
+      font-family: 'Great Vibes', cursive; font-size: 42px; margin: 0 0 10px; color: var(--accent);
+    }
+    .section h3{
+      font-family: 'Poppins', sans-serif; font-size: 22px; margin: 12px 0 14px; font-weight: 600;
+    }
+    .card{
+      background: var(--card); border: 1px solid #ffe1ea; border-radius: 18px; box-shadow: var(--shadow);
+    }
+
+    /* Fundo de corações – chuva lenta */
+    .hearts-bg{ position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+    .heart{
+      position: absolute; top: -10vh; font-size: 18px; opacity: .85;
+      animation: fall linear forwards;
+      filter: drop-shadow(0 2px 0 rgba(0,0,0,.05));
+    }
+    @keyframes fall{
+      to{ transform: translateY(120vh) rotate(360deg); opacity: .95; }
+    }
+
+    /* Álbum (fotos, vídeos, músicas) */
+    .grid{
+      display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    .album-card{ padding: 12px; }
+    .album-card .label{ font-family: 'Poppins', sans-serif; font-size: 14px; opacity: .8; margin-top: 8px; }
+    .album-card video, .album-card img, .album-card audio{ width: 100%; border-radius: 12px; border: 1px solid #ffdbe5; }
+
+    /* Carta enorme */
+    .letter-wrap{ position: relative; padding: 20px; }
+    .letter{
+      background: linear-gradient(180deg, #fff 0%, #fff8fb 100%);
+      border: 2px dashed var(--accent-2);
+      border-radius: 22px; padding: 28px; line-height: 1.9; font-size: 18px;
+      box-shadow: var(--shadow);
+      min-height: 280px;
+    }
+    .letter::before{
+      content: "\2665"; /* ♥ */
+      position: absolute; top: -14px; left: 16px; font-size: 22px; color: var(--accent);
+      background: #fff; border-radius: 999px; padding: 2px 8px; border: 1px solid #ffd5df;
+    }
+    /* Corações flutuando ao redor da carta */
+    .float-heart{ position: absolute; opacity: .7; animation: float 6s ease-in-out infinite; }
+    @keyframes float{
+      0%{ transform: translateY(0) }
+      50%{ transform: translateY(-18px) }
+      100%{ transform: translateY(0) }
+    }
+
+    /* Poemas – Post-its */
+    .sticky-grid{ display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    .sticky{
+      background: #fff9c4; /* amarelo post-it padrão */
+      padding: 18px 16px; border-radius: 12px 12px 40px 12px; border: 1px solid #ffe082;
+      box-shadow: 0 10px 25px rgba(0,0,0,.08), inset 0 -18px 30px rgba(0,0,0,.03);
+      transform: rotate(-1.2deg);
+      position: relative;
+      font-family: 'Poppins', sans-serif; font-size: 16px; line-height: 1.6;
+    }
+    .sticky::after{ /* fita adesiva */
+      content: ""; position: absolute; top: -10px; left: 20px; width: 60px; height: 20px; background: #ffe9a7;
+      transform: rotate(-6deg); box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    }
+    .sticky.pink{ background: #ffd1e7; border-color: #ffc1dd; }
+    .sticky.blue{ background: #d8f1ff; border-color: #c5e9ff; }
+    .sticky.green{ background: #d9ffd9; border-color: #c7f5c7; }
+
+    /* Quiz */
+    .quiz{ padding: 24px; }
+    .q-card{ padding: 22px; }
+    .question{ font-family: 'Poppins', sans-serif; font-size: 20px; margin-bottom: 14px; }
+    .choices{ display: grid; gap: 10px; }
+    .choice{
+      display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+      border: 1px solid #ffd5df; border-radius: 12px; background: #fff; cursor: pointer; transition: transform .06s ease, background .2s;
+    }
+    .choice:hover{ transform: translateY(-1px); background: #fff5f8; }
+    .badge{ font-weight: 700; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; border: 1px solid #ffcad8; color: var(--accent); }
+    .feedback{ min-height: 28px; margin-top: 10px; font-size: 22px; }
+    .ok{ color: #16a34a; }
+    .no{ color: #dc2626; }
+    .progress{ display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 14px; opacity: .9; }
+    .actions{ display: flex; gap: 10px; margin-top: 12px; }
+    .btn{
+      appearance: none; border: none; border-radius: 999px; padding: 10px 16px; font-weight: 600; cursor: pointer;
+      background: var(--accent); color: #fff; box-shadow: var(--shadow);
+    }
+    .btn.alt{ background: #ffe5ec; color: var(--text); border: 1px solid #ffd8e1; }
+
+    /* Prêmio final */
+    .prize{ display: none; padding: 24px; border: 2px solid #ffd1dc; }
+    .prize.show{ display: block; animation: pop .4s ease; }
+    @keyframes pop{ from{ transform: scale(.98); opacity: 0 } to{ transform: scale(1); opacity: 1 } }
+
+    footer{ text-align: center; padding: 40px 16px; color: #555; }
+  </style>
+</head>
+<body>
+  <!-- Fundo com chuva de corações (tons leves) -->
+  <div class="hearts-bg" id="hearts-bg" aria-hidden="true"></div>
+
+  <!-- Navegação -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">1 ano juntos</div>
+      <div class="menu">
+        <a href="#album">Álbum</a>
+        <a href="#carta">Carta</a>
+        <a href="#poemas">Poemas</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#premio">Prêmio</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero section">
+    <h1>Nosso amor, nosso tempo ❤️</h1>
+    <p>Um cantinho romântico com memórias, palavras e um quiz divertido. Feito com amor em cada detalhe.</p>
+  </header>
+
+  <!-- Álbum -->
+  <section id="album" class="section">
+    <h2>♥ Álbum de memórias</h2>
+    <h3>Fotos</h3>
+    <div class="grid" id="photos-grid">
+    
+      <div class="card album-card">
+        <img src="assets/foto/foto1.jpg" alt="O abraço que mais gosto">
+        <div class="label">Meu porto seguro!</div>
+      </div>
+      <div class="card album-card">
+        <img src="assets/foto/foto2.jpg" alt="Praia e mar">
+        <div class="label">Esse dia é um dos inesquecíveis que passamos juntos, a PRAIA!</div>
+      </div>
+      <div class="card album-card">
+        <img src="assets/foto/foto3.jpg" alt="Meu malvado favorito">
+        <div class="label">Fala sério, somos um casalzão do caramba</div>
+      </div>
+      <div class="card album-card">
+        <img src="assets/foto/foto4.jpg" alt="Caminhando na praia">
+        <div class="label">Saudades desse dia hein, foi simplesmente PERFEITO e MARAVILHOSO</div>
+      </div>
+      <div class="card album-card">
+        <img src="assets/foto/foto5.jpg" alt="Momento beijinho hehe">
+        <div class="label">Caaara essa foto é a mais foda e modelo possível</div>
+      </div>
+      <div class="card album-card">
+        <img src="assets/foto/foto6.jpg" alt="Cineminha">
+        <div class="label">Ai toma essa químicaaaa slk que olhada rapaz...</div>
+      </div>
+    </div>
+
+    <h3>Vídeos</h3>
+    <div class="grid" id="videos-grid">
+      <div class="card album-card">
+        <video controls src="assets/video/video2.mp4"></video>
+        <div class="label">Filmes da disney resumindo a gente 💖</div>
+      </div>
+      <div class="card album-card">
+        <video controls src="assets/video/video3.mp4"></video>
+        <div class="label">Só você me faz sentir bem em meio ao caos 💖</div>
+      </div>
+      <div class="card album-card">
+        <video controls src="assets/video/video4.mp4"></video>
+        <div class="label">Meus olhos sempre serão seus e de mais ninguém 💖</div>
+      </div>
+      <div class="card album-card">
+        <video controls src="assets/video/video5.mp4"></video>
+        <div class="label">Quero viver minha vida ao teu lado para todo o sempre 💖</div>
+      </div>
+    </div>
+
+    <h3>Músicas</h3>
+    <div class="grid" id="music-grid">
+      <div class="card album-card">
+        <audio controls src="assets/musica/musica1.mp3"></audio>
+        <div class="label">The first time - Damiano David: O primeiro encontro com alguém especial pode superar até mesmo as experiências mais intensas da vida</div>
+      </div>
+      <div class="grid" id="music-grid">
+      <div class="card album-card">
+        <audio controls src="assets/musica/musica2.mp3"></audio>
+        <div class="label">Those Eyes -  New West: Os pequenos detalhes e gestos cotidianos que fortalecem um relacionamento amoroso e mantêm a chama da paixão acesa</div>
+      </div>
+      <div class="grid" id="music-grid">
+      <div class="card album-card">
+        <audio controls src="assets/musica/musica3.mp3"></audio>
+        <div class="label">Someone To Stay - Vancouver Sleep Clinic: A necessidade humana de conexão, apoio e acolhimento, especialmente em momentos de solidão, fragilidade e desamparo</div>
+      </div>
+      <div class="grid" id="music-grid">
+      <div class="card album-card">
+        <audio controls src="assets/musica/musica4.mp3"></audio>
+        <div class="label">Pra sempre com você - Jorge e Mateus: A necessidade humana de conexão, apoio e acolhimento, especialmente em momentos de solidão, fragilidade e desamparo</div>
+      </div>
+      <div class="grid" id="music-grid">
+      <div class="card album-card">
+        <audio controls src="assets/musica/musica5.mp3"></audio>
+        <div class="label">Until I Found You - Stephen Sanchez: O reencontro e a redescoberta de um amor que se pensava ter perdido</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carta enorme -->
+  <section id="carta" class="section">
+    <h2>♥ Carta para você</h2>
+    <div class="card letter-wrap">
+      <!-- Corações flutuando ao redor -->
+      <div class="float-heart" style="left:12px; top:-6px; color:#ff8fa3">❤</div>
+      <div class="float-heart" style="right:24px; top:-10px; animation-delay:.7s; color:#ffd5df">❤</div>
+      <div class="float-heart" style="left:22px; bottom:-8px; animation-delay:1.1s; color:#ffb3c7">❤</div>
+      <div class="float-heart" style="right:12px; bottom:-12px; animation-delay:.3s; color:#ffc6d6">❤</div>
+
+      <article class="letter">
+        <!--
+          COLE/ESCREVA SUA CARTA AQUI (substitua o parágrafo abaixo)
+          Dica: você pode quebrar em parágrafos <p> ... </p> usando o mesmo estilo.
+        -->
+        <p>
+          Meu amor, cada momento ao seu lado é um presente que eu guardo no meu coração. Obrigada por ser meu parceiro, 
+meu amigo e meu grande amor. Que nosso futuro seja cheio de alegrias, aventuras e muito carinho. Te amo infinitamente!
+Eu nunca vou ter palavras o suficiente pra poder agradecer à Deus por ter te colocado na minha vida, como eu sempre digo, você é a melhor coisa 
+que aconteceu na minha vida, o melhor acaso, o melhor destino, o melhor presente e com toda a sinceridade e certeza do mundo! 
+Quero compartilhar cada segundinho da minha vida, cada felicidade, cada momento, independente se vai ser bom ou ruim! Quero crescer ao seu lado, 
+quero nossa casa do nosso jeitinho, como a gente sempre sonhou, quero nossos filhos correndo em nossa direção quando um de nós chegar em casa após 
+um dia cansativo de trabalho, eu quero tudo isso e mais um pouco, mas só quero se for com você! Você é o homem da minha vida e eu 
+sou imensamente grata à Deus por isso!! Obrigada por nunca ter desistido de mim e principalmente de nós dois, obrigada por tudo o que você 
+faz por mim e pela gente, você é uma pessoa incrível, eu te admiro muito vida, você é uma pessoa muito esforçada e eu quero que você saiba, 
+que eu te desejo todo o sucesso e felicidade do mundo!! Você é a melhor parte do meu dia, você é o motivo da minha felicidade, você é tudo pra mim, 
+você mudou completamente a minha vida, pra melhor, e sempre está mudando! Peço à Deus pra que me dê a chance de poder viver essa e as outras 
+vidas ao seu lado pra sempre! O que eu sinto por você nem o tempo vai mudar, meu sentimento por você cresce a cada dia mais é a tendência 
+é sempre crescer, mais e mais. Conta comigo sempre, eu vou estar sempre torcendo por você e pelo seu sucesso, porque você merece, é realmente um menino de ouro!! 
+E eu vou fazer questão de cuidar desse bem tão precioso que Deus colocou na minha vida!!! Eu te amo e incondicionalmente minha vida!!
+
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Poemas em Post-its -->
+  <section id="poemas" class="section">
+    <h2>♥ Poemas & recadinhos</h2>
+    <p style="font-family:'Poppins',sans-serif">Aqui Dentro, Onde Só a Alma Tem Chave, As Palavras Se Transformam em Sentimentos Eternos</p>
+
+    <div class="sticky-grid">
+      <!-- EXEMPLOS DE POST-ITS (substitua o conteúdo) -->
+      <div class="sticky pink">
+        E se eu te olhar cem vezes, acredite, em cada uma delas estarei me apaixonando um pouco mais.💖
+      </div>
+      <div class="sticky purple" style="transform: rotate(2deg)">
+        É nítido em nosso olhar. Nos pertencemos como nunca havíamos pertencido a alguém antes 💖
+      </div>
+      <div class="sticky blue" style="transform: rotate(-3deg)">
+        Teu olhar é um mar calmo, um segredo a se revelar, é brisa doce em meus lábios, é fogo a me incendiar. Nele encontro meu descanso, me perco e quero ficar, pois nos teus olhos me vejo, me encontro, volto a amar 💖
+      </div>
+      <div class="sticky green" style="transform: rotate(-3deg)">
+        De todas as formas distintas de se dizer eu te amo a minha preferida é esse sorrisinho de canto de boca que a gente dá olhando um pro outro depois de um beijinho 💖
+      </div>
+      <div class="sticky yellow" style="transform: rotate(-3deg)">
+        Eu me perdi em teu sorriso no castanho dos teus olhos no toque de sua mão no timbre da sua voz eu me perdi em você e não quero encontrar o caminho de volta 💖
+      </div>
+      <div class="sticky blue" style="transform: rotate(-3deg)">
+        Eu diria que você tinha a chave do meu coração, mas você nunca precisou dela. - desde o começo eu sabia que podia deixá-lo aberto para você 💖
+      </div>
+      <div class="sticky pink" style="transform: rotate(-3deg)">
+        Eu gostei de você porque você enfrentou todos os meus demônios, viu todos os fantasmas, abraçou todas as inseguranças e permaneceu 💖
+      </div>
+      <div class="sticky purple" style="transform: rotate(-3deg)">
+        Eu quero ser a sua pessoa. aquela que você divide os medos, que dá risada alto, que faz carícias, que diz que ama. eu quero ser aquela pessoa que tá do seu lado mesmo com as tempestades. e eu quero que você saiba que eu sou a sua pessoa 💖
+      </div>
+      <div class="sticky green" style="transform: rotate(-3deg)">
+        Vamos lutar, crescer e realizar todos os nossos sonhos juntos. E eu estou com você sempre viu, você me faz bem, te amo💖
+      </div>
+      <div class="sticky pink" style="transform: rotate(-3deg)">
+        Prometo te amar, mesmo que estejamos com raiva ou com problemas, você nunca deixará de ser o amor da minha vida 💖      </div>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz" class="section quiz">
+    <h2>♥ Quiz: O quanto você me conhece?</h2>
+    <div class="card q-card">
+      <div class="question" id="question">Carregando pergunta...</div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="progress">
+        <div id="progressText">Pergunta 0/12</div>
+        <div>Acertos: <strong id="score">0</strong></div>
+      </div>
+      <div class="actions">
+        <button class="btn alt" id="continueBtn" style="display:none">Continuar do checkpoint</button>
+        <button class="btn alt" id="restartBtn">Reiniciar</button>
+      </div>
+    </div>
+    <small style="display:block; margin-top:10px; opacity:.8">Regra: acerte pelo menos 6 de 12 para desbloquear o prêmio.</small>
+  </section>
+
+  <!-- Prêmio final (carta + música + vídeo) -->
+  <section id="premio" class="section">
+    <h2>♥ Prêmio final</h2>
+    <div class="card prize" id="prize">
+      <div class="section">
+        <h3 style="color:var(--accent)">Sua surpresa</h3>
+        <p>Gatinho, meu amor... aqui vai uma mensagem e um presente super especial só pra você! ✨ Minha vida, Hoje comemoramos 1 ano juntos, 
+e eu ainda fico impressionada em como o tempo passou tão rápido e, ao mesmo tempo, como cada momento ao seu lado foi único e especial. 
+Parece que foi ontem que nossas histórias se cruzaram e, desde então, tudo ficou mais bonito, mais leve e cheio de sentido. 
+Eu quero começar dizendo o quanto você me faz bem. Desde o início, você trouxe uma paz e uma felicidade que eu nem sabia que precisava. 
+O jeito como você cuida de mim, me apoia, me faz rir nos momentos mais bobos e me dá forças quando eu acho que não vou conseguir… tudo isso me mostra 
+que o nosso amor é verdadeiro, forte e cheio de propósito. Nesse um ano ao seu lado, eu aprendi tanta coisa. Aprendi que o amor está nos detalhes, 
+nas pequenas mensagens do dia, nos abraços demorados, nos olhares que dizem tudo sem precisar de palavras. Aprendi que amar não é só sobre os momentos perfeitos, 
+mas também sobre estar juntos mesmo quando as coisas não estão tão fáceis. E com você, até as dificuldades parecem menores, porque sei que não estou sozinha. 
+Eu quero te agradecer por ser quem você é. Por me aceitar do jeitinho que sou, por me ouvir, por segurar minha mão nos dias em que eu mais 
+preciso e por celebrar comigo cada conquista, por menor que seja. Você me inspira a ser uma pessoa melhor, me motiva e me enche de esperança em um 
+futuro ao seu lado. É lindo pensar em tudo o que já vivemos nesses 12 meses: as conversas intermináveis, as risadas sem motivo, os momentos de carinho, 
+os planos para o futuro, os segredos que só nós dois sabemos… Cada memória que criamos juntos é um tesouro guardado no meu coração. 
+E eu sei que esse é só o começo da nossa história. Eu sonho com muitos outros aniversários de namoro, com novas conquistas, viagens, 
+abraços, beijos e dias simples, só nossos, porque a simplicidade com você é sempre especial. Eu sonho com a gente vencendo juntos cada desafio que a vida 
+colocar no caminho, porque sei que ao seu lado sou mais forte, mais feliz e mais completa. Você é o meu amor, meu parceiro, meu melhor amigo e o meu porto seguro. 
+Eu sou imensamente grata por cada segundo que a vida me deu ao seu lado. E nesse aniversário de 1 ano, o que eu mais quero é renovar todos os 
+meus sentimentos por você e te prometer que continuarei cuidando, amando e valorizando esse relacionamento com toda a minha dedicação e carinho. 
+Parabéns para nós, meu amor, por esse marco tão especial. Que esse seja apenas o primeiro de muitos e muitos anos juntos. Que Deus continue nos abençoando cada dia 
+mais, nos proporcionando uma família linda e saudável, uma casa confortavel, um carro, nossa carreira dos sonhos enfim. Obrigada por me fazer sentir tão amada 
+e por ser o motivo do meu sorriso todos os dias. Eu te amo infinitamente, de uma forma que palavras nunca conseguirão explicar. 💖 
+Com todo o meu coração, Sua ETERNA namorada 💖</p>
+        <div class="grid">
+          <div class="card album-card">
+            <audio controls src="assets\musica\Musica premio.mp3"></audio>
+            <div class="label">Hehehe prêmiozinho</div>
+          </div>
+          <div class="card album-card">
+            <video controls src="assets/video/Video prêmio.mp4"></video>
+            <div class="label">PARABÉNS AMOOOR!!!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Feito com amor ❤️ — 1 ano juntos
+  </footer>
+
+  <script>
+    /* =====================================================
+       1) CHUVA LENTA DE CORAÇÕES NO FUNDO
+       ===================================================== */
+    const heartsBg = document.getElementById('hearts-bg');
+    const HEART_COLORS = ['#ffd1dc','#ffc2ce','#ffafc0','#ffa3b7','#ff8fa3']; // tons leves e coloridos
+
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = Math.random() < 0.4 ? '❤' : '♥';
+      const size = 12 + Math.random()*18; // 12–30px
+      const left = Math.random()*100;     // 0–100vw
+      const duration = 18 + Math.random()*18; // 18–36s
+      const delay = Math.random()*2;           // leve desfasagem
+      h.style.left = left + 'vw';
+      h.style.fontSize = size + 'px';
+      h.style.color = HEART_COLORS[Math.floor(Math.random()*HEART_COLORS.length)];
+      h.style.animationDuration = duration + 's';
+      h.style.animationDelay = delay + 's';
+      heartsBg.appendChild(h);
+      // Remover ao final para não pesar
+      setTimeout(()=> h.remove(), (duration+2)*1000);
+    }
+    // Ritmo suave (chuva lenta)
+    setInterval(spawnHeart, 900);
+    // Burst inicial
+    for(let i=0;i<20;i++) spawnHeart();
+
+    /* =====================================================
+       2) QUIZ — 12 PERGUNTAS COM CHECKPOINT E PRÊMIO
+       Edite o array QUESTIONS com suas perguntas.
+       Estrutura:
+       { prompt: 'pergunta...', options: {A:'',B:'',C:'',D:''}, answer: 'A' }
+       ===================================================== */
+    const QUESTIONS = [
+      { prompt: 'Minha cor favorita? 🎨', options: {A:'Roxo', B:'Azul', C:'Rosa', D:'Amarelo'}, answer: 'C' },
+      { prompt: 'Qual o tipo de flor que eu mais gosto? 💐', options: {A:'Girassol', B:'Tulipas', C:'Lírios', D:'Rosas'}, answer: 'D' },
+      { prompt: 'Qual minha comida preferida? 🍅', options: {A:'Pizza', B:'Hambúrguer', C:'Batata frita', D:'Hot Holl'}, answer: 'B' },
+      { prompt: 'Qual minha série preferida? 📽️', options: {A:'The Umbrella Academy', B:'Sintonia', C:'Euphoria', D:'Stranger Things'}, answer: 'D' },
+      { prompt: 'O que me faz sentir amada? 💕', options: {A:'Palavra de afirmação', B:'Comida', C:'Atitudes e presentes', D:'Sair juntos'}, answer: 'C' },
+      { prompt: 'Aonde eu quero ser pedida em casamentos? 💍', options: {A:'Na minha casa', B:'No restaurante', C:'No carro', D:'Numa viagem'}, answer: 'D' },
+      { prompt: 'Qual é o filme de animação que eu mais gosto? 🎬', options: {A:'Barbie', B:'Coraline', C:'Zootopia', D:'A era do gelo'}, answer: 'B' },
+      { prompt: 'Qual minha princesa favorita? 👑', options: {A:'Moana', B:'Cinderela', C:'Rapunzel', D:'Aurora'}, answer: 'C' },
+      { prompt: 'Qual é o meu destino de viagem dos sonhos? ✈️', options: {A:'Nova York', B:'Dubai', C:'Itália', D:'Suiça'}, answer: 'A' },
+      { prompt: 'Com o que eu gasto muito dinheiro? 💰', options: {A:'Cosméticos', B:'Salão', C:'Remédios', D:'Roupas'}, answer: 'A' },
+      { prompt: 'Qual minha fruta favorita? 🍍', options: {A:'Uva', B:'Morango', C:'Manga', D:'Melancia'}, answer: 'C' },
+      { prompt: 'Que tipo de música eu gosto de ouvir? 🎶', options: {A:'Internacional', B:'Funk', C:'Trap', D:'Sertanejo'}, answer: 'A' },
+    ];
+
+    const questionEl = document.getElementById('question');
+    const choicesEl  = document.getElementById('choices');
+    const feedbackEl = document.getElementById('feedback');
+    const scoreEl    = document.getElementById('score');
+    const progressEl = document.getElementById('progressText');
+    const restartBtn = document.getElementById('restartBtn');
+    const continueBtn= document.getElementById('continueBtn');
+    const prizeBox   = document.getElementById('prize');
+
+    const PASS_SCORE = 6; // mínimo para prêmio
+    let idx = 0;          // pergunta atual
+    let score = 0;        // acertos
+    let triedOnce = false;// controle de 2 tentativas
+
+    // Checkpoint
+    const KEY = 'quizCheckpointV1';
+    function saveCheckpoint(){
+      const data = { idx, score, time: Date.now() };
+      localStorage.setItem(KEY, JSON.stringify(data));
+    }
+    function hasCheckpoint(){ return !!localStorage.getItem(KEY); }
+    function loadCheckpoint(){
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return false;
+      try{
+        const data = JSON.parse(raw);
+        if(typeof data.idx === 'number' && typeof data.score === 'number'){
+          idx = Math.max(0, Math.min(QUESTIONS.length-1, data.idx));
+          score = Math.max(0, Math.min(QUESTIONS.length, data.score));
+          return true;
+        }
+      }catch(e){}
+      return false;
+    }
+
+    function render(){
+      // Fim do quiz
+      if(idx >= QUESTIONS.length){
+        questionEl.textContent = 'Fim! Resultado: ' + score + ' / ' + QUESTIONS.length;
+        choicesEl.innerHTML = '';
+        feedbackEl.innerHTML = '';
+        progressEl.textContent = 'Concluído';
+        if(score >= PASS_SCORE){ unlockPrize(); }
+        else{
+          feedbackEl.innerHTML = '<span class="no">Você fez ' + score + ' — tente de novo para alcançar ' + PASS_SCORE + '!</span>';
+        }
+        return;
+      }
+
+      const q = QUESTIONS[idx];
+      questionEl.textContent = q.prompt;
+      progressEl.textContent = `Pergunta ${idx+1}/${QUESTIONS.length}`;
+      scoreEl.textContent = score;
+      feedbackEl.innerHTML = '';
+      triedOnce = false;
+
+      choicesEl.innerHTML = '';
+      for(const letter of ['A','B','C','D']){
+        const btn = document.createElement('button');
+        btn.className = 'choice';
+        btn.setAttribute('data-letter', letter);
+        btn.innerHTML = `<span class="badge">${letter}</span> <span>${q.options[letter]}</span>`;
+        btn.addEventListener('click', ()=> handleAnswer(letter));
+        choicesEl.appendChild(btn);
+      }
+      saveCheckpoint();
+    }
+
+    function handleAnswer(letter){
+      const q = QUESTIONS[idx];
+      if(letter === q.answer){
+        feedbackEl.innerHTML = '<span class="ok">✅ Acertou!</span>';
+        score++;
+        scoreEl.textContent = score;
+        idx++;
+        saveCheckpoint();
+        setTimeout(render, 650); // avança automaticamente
+      }else{
+        if(!triedOnce){
+          triedOnce = true;
+          feedbackEl.innerHTML = '<span class="no">❌ Errou. Tente novamente!</span>';
+        }else{
+          feedbackEl.innerHTML = '<span class="no">❌ Errou de novo. Vamos para a próxima.</span>';
+          idx++;
+          saveCheckpoint();
+          setTimeout(render, 650);
+        }
+      }
+    }
+
+    function unlockPrize(){
+      prizeBox.classList.add('show');
+      // rolar até a seção do prêmio
+      document.querySelector('#premio').scrollIntoView({ behavior: 'smooth' });
+      // pequena chuva extra para celebrar
+      for(let i=0;i<24;i++) setTimeout(spawnHeart, i*120);
+    }
+
+    restartBtn.addEventListener('click', ()=>{
+      idx = 0; score = 0; triedOnce = false; localStorage.removeItem(KEY); render();
+    });
+
+    continueBtn.addEventListener('click', ()=>{
+      if(loadCheckpoint()) render();
+    });
+
+    // Mostrar botão de continuar se houver checkpoint salvo
+    if(hasCheckpoint()) continueBtn.style.display = 'inline-flex';
+
+    // Iniciar
+    render();
+  </script>
+</body>
+</html>
